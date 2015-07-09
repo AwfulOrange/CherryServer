@@ -7,7 +7,9 @@ import javax.persistence.*;
 import java.util.*;
 
 import play.db.ebean.*;
+
 import com.avaje.ebean.*;
+
 import scala.collection.parallel.ParIterableLike.Find;
 
 @Entity
@@ -20,7 +22,7 @@ public class NewsCollection extends Model {
 
 	public Long newsid; // 新闻id
 	public String userid; // 用户id
-	public Date redisttime; // 收藏时间
+	public Date registTime; // 收藏时间
 	public String def;
 	public String remark;
 
@@ -35,9 +37,21 @@ public class NewsCollection extends Model {
 		return find.where().eq("userid", userid).findList();
 	}
 
-	public static List<NewsCollection> findByColl(String userid, Long newsid) {
-		return find.where().eq("userid", newsid).eq("newsid", newsid)
-				.findList();
+	public static NewsCollection findByColl(String userid, Long newsid) {
+		return find.where().eq("userid", userid).eq("newsid", newsid)
+				.findUnique();
+	}
+
+	public Map<String, String> toMap() {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("collectionid", this.collectionid.toString());
+		map.put("newsid", this.newsid.toString());
+		map.put("userid", this.userid);
+		map.put("registTime", (this.registTime == null) ? null
+				: this.registTime.toString());
+		map.put("def", this.def);
+		map.put("remark", this.remark);
+		return map;
 	}
 
 }

@@ -7,7 +7,9 @@ import javax.persistence.*;
 import java.util.*;
 
 import play.db.ebean.*;
+
 import com.avaje.ebean.*;
+
 import scala.collection.parallel.ParIterableLike.Find;
 
 @Entity
@@ -36,6 +38,23 @@ public class NewsDetail extends Model {
 	
 	public static NewsDetail findByid(Long detailid){
 		return find.byId(detailid);
+	}
+	public  Map<String ,String> toMap(){
+		Map<String ,String > map=new HashMap<String ,String>();
+		map.put("detailid", this.detailid.toString());
+		map.put("newsFullTitle", this.newsFullTitle);
+		map.put("newsSummary", this.newsSummary);
+		map.put("newsContent", this.newsContent);
+		map.put("editor", this.editor);
+		map.put("imgUrl", this.imgUrl);
+		map.put("imgWidth", this.imgWidth);
+		map.put("imgHeight", this.imgHeight);
+		map.put("registTime", (this.registTime == null) ? null
+				: this.registTime.toString());
+		map.put("deleteTime", (this.deleteTime == null) ? null : this.deleteTime.toString());
+		map.put("def", this.def);
+		map.put("remark", this.remark);
+		return map;
 	}
 
 }
